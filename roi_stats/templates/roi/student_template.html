@@ -1,0 +1,52 @@
+{% extends 'roi/region_base.html' %}
+{% load static %}
+{% load status_writer %}
+{% block page_title %}
+    {{ student }}
+{% endblock %}
+{% block title %}
+    {{ student }}
+{% endblock %}
+
+{% block table_body %}
+    <table id='olymp' class="table table-striped">
+        <thead>
+        <th>RANK</th>
+        <th>Год</th>
+        <th>Регион</th>
+        <th>Задачи</th>
+        <th>Итоговый балл</th>
+        <th>Статус</th>
+        </thead>
+        <tbody>
+        {% for result in results %}
+            <tr class="{{ result.participant|get_class }}">
+                <td>{{ result.participant.rank }}</td>
+                <td>
+                    <a href="{% url 'olympiad_main' result.participant.olympiad.pk %}">{{ result.participant.olympiad.date_to.year }}</a>
+                </td>
+                <td>
+                    <a href="{% url 'region' result.participant.region.pk %}"> {{ result.participant.region.short_name }}</a>
+                </td>
+                <td>{{ result.tasks }}</td>
+                <td>{{ result.participant.score }}</td>
+                <td>{{ result.participant.status|get_status }}</td>
+
+
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer_scripts %}
+    <script>
+        new DataTable('#olymp', {
+            pageLength: 100,
+            paging: true,
+            select: true,
+            order: [[1, 'desc'], [4, 'desc']]
+        });
+    </script>
+{% endblock %}

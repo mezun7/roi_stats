@@ -1,0 +1,64 @@
+{% extends 'roi/base.html' %}
+{% load static %}
+
+{% block title %}
+    Олимпиады
+{% endblock %}
+{% block  page_title %}
+    Олимпиады
+{% endblock %}
+
+{% block table_body %}
+
+    <table id="olympiads" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Год</th>
+            <th>Название олимпиады</th>
+            <th>Дата начала олимпиады</th>
+            <th>Регион</th>
+            <th>Город</th>
+            <th>Количество участников</th>
+            <th>Количество регионов</th>
+            <th>Сайт олимпиады</th>
+            <th>Codeforces тур</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for result in results %}
+            <tr>
+                <td><a href="{% url 'olympiad_main' result.olympiad.id %}"> {{ result.olympiad.date_to.year }}</a></td>
+                <td>{{ result.olympiad.name }}</td>
+                <td>{{ result.olympiad.date_from }} - {{ result.olympiad.date_to }}</td>
+                <td><a href="{% url 'region' result.olympiad.region.id %}"> {{ result.olympiad.region.short_name }}</a></td>
+                <td>{{ result.olympiad.city }}</td>
+                <td>{{ result.participants_count }}</td>
+                <td>{{ result.regions_count }}</td>
+                <td>
+                    {% if result.olympiad.olymp_site %}
+                        <a href="{{ result.olympiad.olymp_site }}"> {{ result.olympiad.olymp_site }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if result.olympiad.codeforces_tour %}
+                        <a href="{{ result.olympiad.codeforces_tour }}"> {{ result.olympiad.codeforces_tour }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block footer_scripts %}
+    <script>
+        new DataTable('#olympiads', {
+            pageLength: -1,
+            paging: false,
+            select: true,
+            order: [[0, 'desc']]
+        });
+    </script>
+{% endblock %}
