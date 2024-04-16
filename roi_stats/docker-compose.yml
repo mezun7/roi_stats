@@ -13,6 +13,7 @@ services:
       - app
   db:
     image: postgres:13.3
+    restart: always
     volumes:
       - ./data:/var/lib/postgresql/data
     environment:
