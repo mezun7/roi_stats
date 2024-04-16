@@ -213,5 +213,4 @@ ENV/
 
 # End of https://www.gitignore.io/api/macos,linux,django,python,pycharm
 data/
-/roi_stats/data/*
-*data*
+roi_statts/roi_stats/data/
