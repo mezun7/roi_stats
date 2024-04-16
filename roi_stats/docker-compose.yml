@@ -1,0 +1,54 @@
+version: '2.4'
+
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./static:/app/static
+      - ./configs/nginx:/etc/nginx/conf.d
+      - ./media:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+  db:
+    image: postgres:13.3
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    image: app
+    restart: always
+    env_file:
+      - '.env'
+    volumes:
+      - ./media:/app/media
+    depends_on:
+      - db
+
+  init_db:
+    build: .
+    image: app
+    restart: "no"
+    command: bash -c "python3 manage.py migrate && python3 manage.py createsuperuser --noinput --username $DJANGO_SUPERUSER_USERNAME --email $DJANGO_SUPERUSER_EMAIL"
+    env_file:
+      - '.env'
+    depends_on:
+      - db
+      - app
+  collectstatic:
+    build: .
+    image: app
+    volumes:
+      - ./static:/app/static
+    command: python3 manage.py collectstatic --noinput
+    depends_on:
+      - db
+      - app
