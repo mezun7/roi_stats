@@ -1,0 +1,57 @@
+{% extends 'roi/olymp_main.html' %}
+{% load static %}
+{% load status_writer %}
+{% block page_title %}
+	{{ olympiad.name }} - {{ olympiad.date_from.year }}- Результаты по регионам
+{% endblock %}
+
+{% block title %}
+		{{ olympiad.name }} - Результаты по регионам
+{% endblock %}
+
+{% block table_body %}
+
+    <table id="regions" class="table table-striped">
+        <thead>
+        <th>Регион</th>
+        {% for status in statuses %}
+            <th>{{ status|get_status }}</th>
+        {% endfor %}
+
+        {% for task in tasks %}
+            <th>{{ task.alias }}</th>
+        {% endfor %}
+        </thead>
+        <tbody>
+        {% for region, values in region_results.items %}
+            <tr>
+                <td>{{ region }}</td>
+                {#                        <td>{{ values }}</td>#}
+                {% for key, res in values.items %}
+                    {% if key != 'PART' %}
+                        <td>{{ res }}</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endfor %}
+
+
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+{% endblock %}
+
+
+{% block footer_scripts %}
+    <script>
+        new DataTable('#regions', {
+            pageLength:-1,
+            paging: false,
+            select: true
+            {#order: [[3, 'desc']]#}
+        });
+    </script>
+{% endblock %}

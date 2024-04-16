@@ -1,0 +1,57 @@
+{% extends 'roi/olymp_main.html' %}
+{% load static %}
+{% load status_writer %}
+{% block page_title %}
+    {{ olympiad.name }} - {{ olympiad.date_from.year }} -  Результаты участников
+{% endblock %}
+{% block title %}
+    {{ olympiad.name }} - {{ olympiad.date_from.year }} -  Результаты участников
+{% endblock %}
+
+{% block table_body %}
+    <table id='olymp' class="table table-striped">
+        <thead>
+        <th>Rank</th>
+        <th>ФИО</th>
+        <th>Класс</th>
+        <th>Регион</th>
+        {% for task in tasks %}
+            <th>{{ task.alias }}</th>
+        {% endfor %}
+
+        <th>Балл</th>
+        <th>Статус</th>
+        </thead>
+        <tbody>
+        {% for participant in participants %}
+            <tr>
+                <td>{{ participant.participant.rank }}</td>
+                <td>
+                    <a href="{% url 'student_view' participant.participant.student.pk %}"> {{ participant.participant.student }}</a>
+                </td>
+                <td>{{ participant.participant.grade }} </td>
+                <td>
+                    <a href="{% url 'region' participant.participant.region.pk %}"> {{ participant.participant.region.short_name }} </a>
+                </td>
+                {% for task in participant.tasks %}
+                    <td>{{ task.result }}</td>
+                {% endfor %}
+                <td>{{ participant.participant.score }} </td>
+                <td>{{ participant.participant.status | get_status }} </td>
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+{% endblock %}
+{% block footer_scripts %}
+    <script>
+        new DataTable('#olymp', {
+            pageLength: -1,
+            paging: false,
+            select: true
+            {#order: [[3, 'desc']]#}
+        });
+    </script>
+{% endblock %}

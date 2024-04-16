@@ -1,0 +1,39 @@
+{% extends 'roi/region_base.html' %}
+{% load static %}
+{% load status_writer %}
+
+{% block title %}
+    {{ region.short_name }}
+{% endblock %}
+{% block page_title %}
+    {{ region.short_name }}
+{% endblock %}
+
+{% block table_body %}
+    <div class="row">
+        <div class="col-5 text-center d-flex align-items-center justify-content-center">
+            <div class="">
+                <h2><strong>{{ region.short_name }}</strong></h2>
+            </div>
+        </div>
+        <div class="col-7">
+            <div class="form-group">
+                <label for="inputName">Первое участие: </label> {{ first_year_of_participations }}
+                {#            <p class="form-control">Test</p>#}
+            </div>
+            <div class="form-group">
+                <label for="inputName">Общее количество участников: </label> {{ overall_contestants }}
+                {#            <p class="form-control">Test</p>#}
+            </div>
+            <div class="form-group">
+                <label for="inputName">Победителей: </label> {{ winners }}
+                {#            <p class="form-control">Test</p>#}
+            </div>
+            <div class="form-group">
+                <label for="inputName">Призеров: </label> {{ prizes }}
+                {#            <p class="form-control">Test</p>#}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

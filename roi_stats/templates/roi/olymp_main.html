@@ -1,0 +1,24 @@
+{% extends 'roi/base.html' %}
+
+{% block sidebar_menu %}
+    <li class="nav-item">
+        <a href="{% url 'olympiad_main' olympiad.pk %}" class="nav-link">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+                Главная
+            </p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'olympiad_results' olympiad.pk %}" class="nav-link">
+            <i class="fas fa-circle nav-icon"></i>
+            <p>Результаты</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{% url 'region_olympiad_results' olympiad.pk %}" class="nav-link">
+            <i class="fas fa-circle nav-icon"></i>
+            <p>Результаты регионов</p>
+        </a>
+    </li>
+{% endblock %}
