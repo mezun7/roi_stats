@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.10.12
 #RUN apk update && apk add gcc libc-dev
 RUN mkdir /app
 COPY requirements.txt /app
